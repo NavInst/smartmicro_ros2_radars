@@ -1057,9 +1057,8 @@ void SmartmicroRadarNode::objectlist_callback_umrra4_mse_v1_0_0(
     ObjectPointCloudModifier modifier{msg, m_sensors[sensor_idx].frame_id};
     const auto [sec, nanosec] =
       convert_timestamp(std::chrono::microseconds{port_header->GetTimestamp()});
-    // msg.header.stamp.sec = sec;
-    // msg.header.stamp.nanosec = nanosec;
-    msg.header.stamp = this->now();
+    msg.header.stamp.sec = sec;
+    msg.header.stamp.nanosec = nanosec;
     header.frame_id = m_sensors[sensor_idx].frame_id;
     header.port_identifier = port_header->GetPortIdentifier();
     header.port_ver_major = port_header->GetPortVersionMajor();
@@ -1388,8 +1387,9 @@ void SmartmicroRadarNode::targetlist_callback_umrr96(
     RadarCloudModifier modifier{msg, m_sensors[sensor_idx].frame_id};
     const auto [sec, nanosec] =
       convert_timestamp(std::chrono::microseconds{port_header->GetTimestamp()});
-    msg.header.stamp.sec = sec;
-    msg.header.stamp.nanosec = nanosec;
+    // msg.header.stamp.sec = sec;
+    // msg.header.stamp.nanosec = nanosec;
+    msg.header.stamp = this->now();
     header.frame_id = m_sensors[sensor_idx].frame_id;
 
     header.port_identifier = port_header->GetPortIdentifier();
