@@ -338,27 +338,27 @@ void SmartmicroRadarNode::port_publishers(const detail::SensorConfig & sensor, s
   try {
     if (pub_type == kMseType) {
       m_publishers_obj[sensor_idx] = create_publisher<sensor_msgs::msg::PointCloud2>(
-        "smart_radar/port_objects_" + std::to_string(sensor_idx), sensor.history_size);
+        "smart_radar/port_objects_" + m_sensors[sensor_idx].frame_id, sensor.history_size);
       m_publishers_port_obj_header[sensor_idx] =
         create_publisher<umrr_ros2_msgs::msg::PortObjectHeader>(
-          "smart_radar/port_objectheader_" + std::to_string(sensor_idx), sensor.history_size);
+          "smart_radar/port_objectheader_" + m_sensors[sensor_idx].frame_id, sensor.history_size);
       m_publishers[sensor_idx] = create_publisher<sensor_msgs::msg::PointCloud2>(
-        "smart_radar/port_targets_" + std::to_string(sensor_idx), sensor.history_size);
+        "smart_radar/port_targets_" + m_sensors[sensor_idx].frame_id, sensor.history_size);
       m_publishers_port_target_header[sensor_idx] =
         create_publisher<umrr_ros2_msgs::msg::PortTargetHeader>(
-          "smart_radar/port_targetheader_" + std::to_string(sensor_idx), sensor.history_size);
-
+          "smart_radar/port_targetheader_" + m_sensors[sensor_idx].frame_id, sensor.history_size);
+ 
     } else if (pub_type == kTargetType) {
       m_publishers[sensor_idx] = create_publisher<sensor_msgs::msg::PointCloud2>(
-        "smart_radar/port_targets_" + std::to_string(sensor_idx), sensor.history_size);
+        "smart_radar/port_targets_" + m_sensors[sensor_idx].frame_id, sensor.history_size);
       m_publishers_port_target_header[sensor_idx] =
         create_publisher<umrr_ros2_msgs::msg::PortTargetHeader>(
-          "smart_radar/port_targetheader_" + std::to_string(sensor_idx), sensor.history_size);
+          "smart_radar/port_targetheader_" + m_sensors[sensor_idx].frame_id, sensor.history_size);
     } else {
       RCLCPP_ERROR(get_logger(), "Unknown publish type: %s", sensor.pub_type.c_str());
       throw std::invalid_argument("Unknown publish type");
     }
-
+ 
     RCLCPP_INFO(get_logger(), "Successfully created PORT publishers for sensor %zu", sensor_idx);
   } catch (const std::exception & e) {
     RCLCPP_ERROR(
